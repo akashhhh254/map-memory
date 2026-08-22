@@ -17,22 +17,26 @@ import {
   Heart,
   TrendingUp,
 } from 'lucide-react';
-import { AppView, Memory, UserSettings } from '../types';
+import { AppView, AuthUser, Memory, UserSettings } from '../types';
 
 interface LandingPageProps {
   onNavigate: (view: AppView) => void;
   onOpenCreate: () => void;
   onOpenJudgeTour: () => void;
+  onOpenAuth: () => void;
   memories: Memory[];
   settings: UserSettings;
+  authUser: AuthUser | null;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({
   onNavigate,
   onOpenCreate,
   onOpenJudgeTour,
+  onOpenAuth,
   memories,
   settings,
+  authUser,
 }) => {
   const [activeTab, setActiveTab] = useState<'map' | 'graph' | 'timeline' | 'ai'>('map');
 
@@ -51,18 +55,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="flex items-center gap-3">
             <button
               onClick={onOpenJudgeTour}
-              className="text-xs font-bold text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 px-3 py-1.5 rounded-lg border border-amber-500/30 transition-all flex items-center gap-1.5"
+              className="text-xs font-bold text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 px-3 py-1.5 rounded-lg border border-amber-500/30 transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <Award className="w-3.5 h-3.5" />
-              <span>Judge Presentation Guide</span>
+              <span>Product Tour</span>
             </button>
-            <button
-              onClick={() => onNavigate('overview')}
-              className="text-xs font-semibold text-white bg-violet-600 hover:bg-violet-500 px-3.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center gap-1"
-            >
-              <span>Open App</span>
-              <ArrowRight className="w-3 h-3" />
-            </button>
+            {authUser ? (
+              <button
+                onClick={() => onNavigate('overview')}
+                className="text-xs font-semibold text-white bg-violet-600 hover:bg-violet-500 px-3.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center gap-1 cursor-pointer"
+              >
+                <span>Dashboard</span>
+                <ArrowRight className="w-3 h-3" />
+              </button>
+            ) : (
+              <button
+                onClick={onOpenAuth}
+                className="text-xs font-semibold text-violet-300 bg-violet-600/20 hover:bg-violet-600/30 border border-violet-500/30 px-3.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center gap-1 cursor-pointer"
+              >
+                <span>Sign In</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -136,7 +149,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                       <div className="w-3 h-3 rounded-full bg-rose-500/80" />
                       <div className="w-3 h-3 rounded-full bg-amber-500/80" />
                       <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-                      <span className="text-[11px] font-mono text-slate-400 ml-2 font-medium">memorymap.app/nagpur</span>
+                      <span className="text-[11px] font-mono text-slate-400 ml-2 font-medium">memorymap.app/worldwide</span>
                     </div>
                     <span className="text-[10px] uppercase font-bold text-violet-400 px-2 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/20">
                       Live Map Engine
@@ -171,8 +184,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                       />
                     </svg>
 
-                    {/* Pin 1: Nagpur Hackathon */}
-                    <div className="absolute top-20 left-12 group cursor-pointer">
+                    {/* Pin 1: Paris */}
+                    <div className="absolute top-16 left-16 group cursor-pointer">
                       <div className="relative flex items-center justify-center">
                         <div className="absolute w-8 h-8 rounded-full bg-violet-500/40 animate-ping-slow" />
                         <div className="w-7 h-7 rounded-xl bg-violet-600 text-white flex items-center justify-center shadow-lg shadow-violet-600/50 ring-2 ring-violet-400">
@@ -180,11 +193,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                         </div>
                       </div>
                       <div className="mt-1 px-2 py-0.5 rounded-md bg-[#11111A] border border-slate-800 text-[10px] font-bold text-violet-300 whitespace-nowrap shadow-md">
-                        📍 Nagpur, MH
+                        📍 Paris, France
                       </div>
                     </div>
 
-                    {/* Pin 2: Mumbai Marine Drive */}
+                    {/* Pin 2: Tokyo */}
                     <div className="absolute bottom-20 left-44 group cursor-pointer">
                       <div className="relative flex items-center justify-center">
                         <div className="w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-lg shadow-emerald-600/50 ring-2 ring-emerald-400">
@@ -192,11 +205,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                         </div>
                       </div>
                       <div className="mt-1 px-2 py-0.5 rounded-md bg-[#11111A] border border-slate-800 text-[10px] font-bold text-emerald-300 whitespace-nowrap shadow-md">
-                        📍 Mumbai Coastal
+                        📍 Tokyo, Japan
                       </div>
                     </div>
 
-                    {/* Pin 3: Goa Beach */}
+                    {/* Pin 3: New York */}
                     <div className="absolute top-14 right-16 group cursor-pointer">
                       <div className="relative flex items-center justify-center">
                         <div className="w-7 h-7 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-600/50 ring-2 ring-indigo-400">
@@ -204,7 +217,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                         </div>
                       </div>
                       <div className="mt-1 px-2 py-0.5 rounded-md bg-[#11111A] border border-slate-800 text-[10px] font-bold text-indigo-300 whitespace-nowrap shadow-md">
-                        📍 Palolem, Goa
+                        📍 New York, USA
                       </div>
                     </div>
 
@@ -212,20 +225,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     <div className="absolute bottom-4 right-4 max-w-[260px] sm:max-w-[280px] p-3.5 rounded-2xl bg-[#11111A]/95 backdrop-blur-xl border border-violet-500/30 shadow-2xl shadow-black/80 space-y-2">
                       <div className="flex items-center gap-2">
                         <img
-                          src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=200&auto=format&fit=crop&q=80"
-                          alt="College Tech Summit"
+                          src="https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=200&auto=format&fit=crop&q=80"
+                          alt="Eiffel Tower Sunset"
                           className="w-12 h-12 rounded-xl object-cover ring-1 ring-violet-500/40"
                         />
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-xs font-bold text-white truncate">College Tech Summit</h4>
+                          <h4 className="text-xs font-bold text-white truncate">Eiffel Tower Sunset</h4>
                           <p className="text-[10px] text-violet-300 flex items-center gap-1 font-medium">
-                            <MapPin className="w-3 h-3" /> Nagpur, Maharashtra
+                            <MapPin className="w-3 h-3" /> Paris, France
                           </p>
-                          <p className="text-[9px] text-slate-400">📅 August 2026 • 3 People</p>
+                          <p className="text-[9px] text-slate-400">📅 July 2026 • 2 People</p>
                         </div>
                       </div>
                       <p className="text-[11px] text-slate-300 italic line-clamp-2 leading-relaxed bg-[#0A0A0F] p-1.5 rounded-lg border border-slate-800">
-                        “An unforgettable night of building, teamwork and product presentation.”
+                        “Watched the golden twilight turn into shimmering night lights across Paris.”
                       </p>
                       <button
                         onClick={() => onNavigate('map')}

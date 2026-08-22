@@ -38,13 +38,14 @@ const CATEGORY_COLORS: Record<MemoryCategory, string> = {
 };
 
 const CITY_PRESETS = [
-  { name: 'All Places', center: [20.5937, 78.9629], zoom: 5 },
-  { name: 'Nagpur', center: [21.1458, 79.0882], zoom: 13 },
+  { name: 'World View', center: [20.0, 10.0], zoom: 2 },
+  { name: 'Paris', center: [48.8566, 2.3522], zoom: 12 },
+  { name: 'Tokyo', center: [35.6762, 139.6503], zoom: 12 },
+  { name: 'New York', center: [40.7128, -74.006], zoom: 12 },
+  { name: 'London', center: [51.5074, -0.1278], zoom: 12 },
+  { name: 'Dubai', center: [25.2048, 55.2708], zoom: 12 },
+  { name: 'Sydney', center: [-33.8688, 151.2093], zoom: 12 },
   { name: 'Mumbai', center: [19.0760, 72.8777], zoom: 12 },
-  { name: 'Pune', center: [18.5204, 73.8567], zoom: 12 },
-  { name: 'Goa', center: [15.2993, 74.1240], zoom: 11 },
-  { name: 'Delhi', center: [28.6139, 77.2090], zoom: 12 },
-  { name: 'Hyderabad', center: [17.3850, 78.4867], zoom: 12 },
 ];
 
 export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
@@ -64,7 +65,7 @@ export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
   const [searchResults, setSearchResults] = useState<LocationData[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedCity, setSelectedCity] = useState<string>('All Places');
+  const [selectedCity, setSelectedCity] = useState<string>('World View');
   const [showTrails, setShowTrails] = useState(true);
   const [mapTileStyle, setMapTileStyle] = useState<'dark' | 'light' | 'satellite'>('dark');
   const [clickedCoords, setClickedCoords] = useState<{ lat: number; lng: number } | null>(null);
@@ -162,7 +163,7 @@ export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
       if (selectedCategory !== 'all' && mem.category !== selectedCategory) {
         return false;
       }
-      if (selectedCity !== 'All Places' && mem.location.city !== selectedCity) {
+      if (selectedCity !== 'World View' && mem.location.city !== selectedCity) {
         return false;
       }
       return true;
@@ -231,7 +232,7 @@ export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
     });
 
     // Auto-fit if filter changed
-    if (latLngs.length > 0 && selectedCity !== 'All Places') {
+    if (latLngs.length > 0 && selectedCity !== 'World View') {
       const bounds = L.latLngBounds(latLngs);
       map.fitBounds(bounds, { padding: [60, 60], maxZoom: 14 });
     }
@@ -287,7 +288,7 @@ export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
               <Search className="absolute left-3.5 w-4 h-4 text-violet-400 pointer-events-none" />
               <input
                 type="text"
-                placeholder="Search Nagpur, Mumbai, Goa, Pune, Delhi..."
+                placeholder="Search any place or city in the world (e.g. Paris, Tokyo, New York, London)..."
                 value={searchQuery}
                 onChange={handleSearchChange}
                 className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-[#11111A]/95 text-slate-100 placeholder-slate-400 text-xs font-medium border border-slate-800 shadow-2xl backdrop-blur-xl focus:outline-none focus:ring-1 focus:ring-violet-500/60 focus:border-violet-500 transition-all"

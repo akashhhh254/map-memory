@@ -114,7 +114,7 @@ export const InsightsView: React.FC<InsightsViewProps> = ({
           <div>
             <h3 className="text-sm font-bold text-white">Dominant Life Theme</h3>
             <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-              “<strong className="text-emerald-300">{topCategory}</strong> and Exploration is your most common memory theme, connecting coastal roads in Goa with Sahyadri fort treks in Pune.”
+              “<strong className="text-emerald-300">{topCategory}</strong> and Global Exploration is your most common memory theme, connecting historic cities and international wonders across the globe.”
             </p>
           </div>
         </div>

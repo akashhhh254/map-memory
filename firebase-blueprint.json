@@ -1,0 +1,50 @@
+{
+  "entities": {
+    "memories": {
+      "title": "Memories",
+      "description": "User memories tied to worldwide locations, people, and stories",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "story": { "type": "string" },
+        "date": { "type": "string" },
+        "location": { "type": "object" },
+        "category": { "type": "string" },
+        "peopleIds": { "type": "array" },
+        "photos": { "type": "array" },
+        "tags": { "type": "array" },
+        "collectionId": { "type": "string" },
+        "eventName": { "type": "string" },
+        "aiSummary": { "type": "string" },
+        "mood": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "story", "date", "location", "category", "createdAt"]
+    },
+    "people": {
+      "title": "People",
+      "description": "Companions, friends, and family",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "avatar": { "type": "string" },
+        "relation": { "type": "string" },
+        "bio": { "type": "string" }
+      },
+      "required": ["name"]
+    },
+    "collections": {
+      "title": "Collections",
+      "description": "Curated collections and trips",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "coverImage": { "type": "string" },
+        "color": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name"]
+    }
+  }
+}

@@ -2,22 +2,58 @@ import { LocationData } from '../types';
 
 export const POPULAR_LOCATIONS: LocationData[] = [
   {
-    placeName: 'VNIT Campus & Bajaj Nagar',
-    city: 'Nagpur',
-    state: 'Maharashtra',
-    country: 'India',
-    lat: 21.1255,
-    lng: 79.0522,
-    formattedAddress: 'South Ambazari Rd, VNIT, Nagpur, Maharashtra 440010',
+    placeName: 'Eiffel Tower & Champ de Mars',
+    city: 'Paris',
+    state: 'Île-de-France',
+    country: 'France',
+    lat: 48.8584,
+    lng: 2.2945,
+    formattedAddress: 'Champ de Mars, 5 Av. Anatole France, 75007 Paris, France',
   },
   {
-    placeName: 'Futala Lake Promenade',
-    city: 'Nagpur',
-    state: 'Maharashtra',
-    country: 'India',
-    lat: 21.1539,
-    lng: 79.0436,
-    formattedAddress: 'Futala Lake Rd, Vayusena Nagar, Nagpur, Maharashtra 440001',
+    placeName: 'Shibuya Crossing & Hachiko',
+    city: 'Tokyo',
+    state: 'Kanto',
+    country: 'Japan',
+    lat: 35.6595,
+    lng: 139.7005,
+    formattedAddress: '1 Chome-2-1 Dogenzaka, Shibuya City, Tokyo 150-0043, Japan',
+  },
+  {
+    placeName: 'Brooklyn Bridge & DUMBO',
+    city: 'New York',
+    state: 'New York',
+    country: 'United States',
+    lat: 40.7061,
+    lng: -73.9969,
+    formattedAddress: 'Brooklyn Bridge, New York, NY 10038, USA',
+  },
+  {
+    placeName: 'Tower Bridge & Thames Walk',
+    city: 'London',
+    state: 'Greater London',
+    country: 'United Kingdom',
+    lat: 51.5055,
+    lng: -0.0754,
+    formattedAddress: 'Tower Bridge Rd, London SE1 2UP, UK',
+  },
+  {
+    placeName: 'Burj Khalifa Downtown',
+    city: 'Dubai',
+    state: 'Dubai',
+    country: 'United Arab Emirates',
+    lat: 25.1972,
+    lng: 55.2744,
+    formattedAddress: '1 Sheikh Mohammed bin Rashid Blvd, Downtown Dubai, UAE',
+  },
+  {
+    placeName: 'Sydney Opera House & Harbour',
+    city: 'Sydney',
+    state: 'New South Wales',
+    country: 'Australia',
+    lat: -33.8568,
+    lng: 151.2153,
+    formattedAddress: 'Bennelong Point, Sydney NSW 2000, Australia',
   },
   {
     placeName: 'Marine Drive Promenade',
@@ -26,97 +62,16 @@ export const POPULAR_LOCATIONS: LocationData[] = [
     country: 'India',
     lat: 18.9438,
     lng: 72.8233,
-    formattedAddress: 'Netaji Subhash Chandra Bose Rd, Churchgate, Mumbai 400020',
+    formattedAddress: 'Netaji Subhash Chandra Bose Rd, Churchgate, Mumbai 400020, India',
   },
   {
-    placeName: 'Bandra Bandstand & Chapel Road',
-    city: 'Mumbai',
+    placeName: 'VNIT Campus & Ambazari',
+    city: 'Nagpur',
     state: 'Maharashtra',
     country: 'India',
-    lat: 19.0494,
-    lng: 72.8211,
-    formattedAddress: 'Bandstand Promenade, Bandra West, Mumbai 400050',
-  },
-  {
-    placeName: 'Baner High Street',
-    city: 'Pune',
-    state: 'Maharashtra',
-    country: 'India',
-    lat: 18.5590,
-    lng: 73.7868,
-    formattedAddress: 'Baner Road, Pune, Maharashtra 411045',
-  },
-  {
-    placeName: 'Sinhagad Fort',
-    city: 'Pune',
-    state: 'Maharashtra',
-    country: 'India',
-    lat: 18.3663,
-    lng: 73.7559,
-    formattedAddress: 'Sinhagad Ghat Rd, Pune, Maharashtra 411025',
-  },
-  {
-    placeName: 'Palolem Beach',
-    city: 'Goa',
-    state: 'Goa',
-    country: 'India',
-    lat: 15.0100,
-    lng: 74.0232,
-    formattedAddress: 'Canacona, South Goa, Goa 403702',
-  },
-  {
-    placeName: 'Fontainhas Latin Quarter',
-    city: 'Goa',
-    state: 'Goa',
-    country: 'India',
-    lat: 15.4989,
-    lng: 73.8315,
-    formattedAddress: 'Panaji, North Goa, Goa 403001',
-  },
-  {
-    placeName: 'Humayun’s Tomb',
-    city: 'Delhi',
-    state: 'Delhi',
-    country: 'India',
-    lat: 28.5933,
-    lng: 77.2507,
-    formattedAddress: 'Mathura Rd, Nizamuddin East, New Delhi, Delhi 110013',
-  },
-  {
-    placeName: 'India Gate & Rajpath',
-    city: 'Delhi',
-    state: 'Delhi',
-    country: 'India',
-    lat: 28.6129,
-    lng: 77.2295,
-    formattedAddress: 'Kartavya Path, India Gate, New Delhi 110001',
-  },
-  {
-    placeName: 'Charminar & Laad Bazaar',
-    city: 'Hyderabad',
-    state: 'Telangana',
-    country: 'India',
-    lat: 17.3616,
-    lng: 78.4747,
-    formattedAddress: 'Charminar Rd, Ghansi Bazaar, Hyderabad 500002',
-  },
-  {
-    placeName: 'HITEC City & Cyber Towers',
-    city: 'Hyderabad',
-    state: 'Telangana',
-    country: 'India',
-    lat: 17.4504,
-    lng: 78.3808,
-    formattedAddress: 'HITEC City, Madhapur, Hyderabad 500081',
-  },
-  {
-    placeName: 'Indiranagar 100ft Road',
-    city: 'Bengaluru',
-    state: 'Karnataka',
-    country: 'India',
-    lat: 12.9784,
-    lng: 77.6408,
-    formattedAddress: '100 Feet Rd, Indiranagar, Bengaluru, Karnataka 560038',
+    lat: 21.1255,
+    lng: 79.0522,
+    formattedAddress: 'South Ambazari Rd, VNIT, Nagpur, Maharashtra 440010, India',
   },
 ];
 
@@ -135,12 +90,12 @@ export class GeocodingService {
         loc.country.toLowerCase().includes(q)
     );
 
-    // If query is longer and user might want global geocoding, fetch from Nominatim OpenStreetMap
+    // Fetch from Nominatim OpenStreetMap worldwide geocoder
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
           query
-        )}&addressdetails=1&limit=5`,
+        )}&addressdetails=1&limit=6`,
         {
           headers: {
             'Accept-Language': 'en',
@@ -159,7 +114,7 @@ export class GeocodingService {
             address.state_district ||
             item.name;
           const state = address.state;
-          const country = address.country || 'India';
+          const country = address.country || 'Global';
           return {
             placeName: item.name || item.display_name.split(',')[0],
             city: city || 'Unknown City',
@@ -212,7 +167,7 @@ export class GeocodingService {
           placeName: item.name || address.suburb || address.neighbourhood || city,
           city: city,
           state: address.state,
-          country: address.country || 'India',
+          country: address.country || 'Global',
           lat,
           lng,
           formattedAddress: item.display_name,
@@ -224,8 +179,8 @@ export class GeocodingService {
 
     return {
       placeName: `Location (${lat.toFixed(3)}, ${lng.toFixed(3)})`,
-      city: 'Custom Pin',
-      country: 'India',
+      city: 'Pinned Location',
+      country: 'Global',
       lat,
       lng,
       formattedAddress: `Coordinates: ${lat.toFixed(4)}, ${lng.toFixed(4)}`,

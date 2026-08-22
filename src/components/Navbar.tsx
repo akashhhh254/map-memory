@@ -1,17 +1,15 @@
 import React from 'react';
 import {
-  Compass,
   Search,
   Plus,
-  Moon,
-  Sun,
-  Award,
   Sparkles,
-  MapPin,
   Menu,
-  Share2,
+  LogIn,
+  LogOut,
+  ShieldCheck,
+  User as UserIcon,
 } from 'lucide-react';
-import { AppView, UserSettings } from '../types';
+import { AppView, AuthUser, UserSettings } from '../types';
 
 interface NavbarProps {
   currentView: AppView;
@@ -23,6 +21,9 @@ interface NavbarProps {
   onToggleTheme: () => void;
   onToggleMobileSidebar: () => void;
   memoryCount: number;
+  authUser: AuthUser | null;
+  onOpenAuth: () => void;
+  onSignOut: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -35,8 +36,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   onToggleTheme,
   onToggleMobileSidebar,
   memoryCount,
+  authUser,
+  onOpenAuth,
+  onSignOut,
 }) => {
-  const firstName = settings.userName.split(' ')[0] || 'Akash';
+  const displayName = authUser?.displayName || settings.userName.split(' ')[0] || 'Explorer';
 
   return (
     <header className="sticky top-0 z-40 w-full h-16 border-b border-slate-800 bg-[#0A0A0F]/80 backdrop-blur-md flex items-center justify-between px-4 sm:px-6 lg:px-8 transition-colors">
@@ -71,11 +75,17 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
         ) : (
           <div>
-            <h1 className="text-white font-bold text-base sm:text-lg">
-              Good morning, {firstName} 👋
+            <h1 className="text-white font-bold text-base sm:text-lg flex items-center gap-2">
+              <span>Welcome, {displayName}</span>
+              {authUser && (
+                <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <ShieldCheck className="w-3 h-3" />
+                  <span>Cloud Auth</span>
+                </span>
+              )}
             </h1>
             <p className="text-slate-500 text-xs hidden sm:block">
-              You have {memoryCount} memories mapped across your personal network.
+              You have {memoryCount} memories mapped across your worldwide network.
             </p>
           </div>
         )}
@@ -100,8 +110,8 @@ export const Navbar: React.FC<NavbarProps> = ({
       )}
 
       {/* Right Controls */}
-      <div className="flex items-center gap-3">
-        {/* Product Tour / Guide CTA */}
+      <div className="flex items-center gap-2.5 sm:gap-3">
+        {/* Product Tour CTA */}
         <button
           onClick={onOpenJudgeTour}
           className="bg-violet-500/10 text-violet-300 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider border border-violet-500/20 flex items-center gap-1.5 hover:bg-violet-500/20 transition-all cursor-pointer"
@@ -115,29 +125,58 @@ export const Navbar: React.FC<NavbarProps> = ({
         {currentView === 'landing' ? (
           <button
             onClick={() => onNavigate('overview')}
-            className="bg-violet-600 hover:bg-violet-500 text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all shadow-lg shadow-violet-500/20 flex items-center gap-1.5"
+            className="bg-violet-600 hover:bg-violet-500 text-white px-3.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all shadow-lg shadow-violet-500/20 flex items-center gap-1.5"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Launch Dashboard</span>
+            <span>Launch App</span>
           </button>
         ) : (
           <button
             onClick={onOpenCreate}
-            className="bg-violet-600 hover:bg-violet-500 text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all shadow-lg shadow-violet-500/20 flex items-center gap-1.5 active:scale-95 cursor-pointer"
+            className="bg-violet-600 hover:bg-violet-500 text-white px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all shadow-lg shadow-violet-500/20 flex items-center gap-1.5 active:scale-95 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            <span>+ Create Memory</span>
+            <span className="hidden sm:inline">+ Create Memory</span>
+            <span className="sm:hidden">+ Add</span>
           </button>
         )}
 
-        {/* User avatar */}
-        <button
-          onClick={() => onNavigate('settings')}
-          className="w-9 h-9 rounded-full overflow-hidden bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-bold text-xs hover:ring-2 hover:ring-violet-500 transition-all shrink-0"
-          title={`${settings.userName}`}
-        >
-          {settings.userName.charAt(0)}
-        </button>
+        {/* Auth / Account Profile Button */}
+        {authUser ? (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => onNavigate('settings')}
+              className="w-9 h-9 rounded-full overflow-hidden bg-violet-600/20 border border-violet-500/40 flex items-center justify-center text-violet-300 font-bold text-xs hover:ring-2 hover:ring-violet-500 transition-all shrink-0"
+              title={`${authUser.displayName || authUser.email || 'User Account'}`}
+            >
+              {authUser.photoURL ? (
+                <img
+                  src={authUser.photoURL}
+                  alt="avatar"
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                displayName.charAt(0).toUpperCase()
+              )}
+            </button>
+            <button
+              onClick={onSignOut}
+              className="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-slate-800 transition-colors hidden sm:flex items-center justify-center"
+              title="Sign Out"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={onOpenAuth}
+            className="px-3 py-2 rounded-xl bg-[#11111A] hover:bg-slate-800 border border-violet-500/30 text-violet-300 hover:text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
+          >
+            <LogIn className="w-3.5 h-3.5" />
+            <span>Sign In</span>
+          </button>
+        )}
       </div>
     </header>
   );

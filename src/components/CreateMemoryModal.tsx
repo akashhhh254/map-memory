@@ -318,16 +318,16 @@ export const CreateMemoryModal: React.FC<CreateMemoryModalProps> = ({
             <div className="space-y-4 animate-in fade-in slide-in-from-right-2 duration-150">
               <div>
                 <label className="block text-slate-300 font-semibold mb-1">
-                  Search Location or Choose from Popular Indian Places
+                  Search Location or Choose from Worldwide Cities
                 </label>
                 <div className="relative">
-                  <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-purple-400" />
+                  <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-violet-400" />
                   <input
                     type="text"
-                    placeholder="Search Nagpur, Mumbai, Pune, Goa, Delhi, Hyderabad..."
+                    placeholder="Search any place in the world (e.g. Paris, Tokyo, New York, London, Mumbai)..."
                     value={locationQuery}
                     onChange={(e) => handleLocationSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-slate-950 text-white border border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-slate-950 text-white border border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500"
                   />
                 </div>
 
@@ -338,9 +338,9 @@ export const CreateMemoryModal: React.FC<CreateMemoryModalProps> = ({
                       <button
                         key={i}
                         onClick={() => handleSelectLocation(res)}
-                        className="w-full text-left p-2.5 hover:bg-purple-600/20 text-slate-200 text-xs flex items-center gap-2"
+                        className="w-full text-left p-2.5 hover:bg-violet-600/20 text-slate-200 text-xs flex items-center gap-2"
                       >
-                        <MapPin className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+                        <MapPin className="w-3.5 h-3.5 text-violet-400 shrink-0" />
                         <span className="truncate font-medium">{res.placeName}, {res.city}</span>
                       </button>
                     ))}
@@ -349,9 +349,9 @@ export const CreateMemoryModal: React.FC<CreateMemoryModalProps> = ({
               </div>
 
               {/* Selected Location Card */}
-              <div className="p-4 rounded-2xl bg-slate-950/70 border border-purple-500/30 space-y-2">
+              <div className="p-4 rounded-2xl bg-slate-950/70 border border-violet-500/30 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase font-bold text-purple-400">Selected Coordinates</span>
+                  <span className="text-[10px] uppercase font-bold text-violet-400">Selected Coordinates</span>
                   <span className="text-[10px] font-mono text-slate-400">
                     {location.lat.toFixed(4)}, {location.lng.toFixed(4)}
                   </span>
@@ -367,7 +367,7 @@ export const CreateMemoryModal: React.FC<CreateMemoryModalProps> = ({
 
               {/* Quick Preset Places */}
               <div>
-                <p className="text-slate-400 font-medium mb-2">Quick presets:</p>
+                <p className="text-slate-400 font-medium mb-2">Global presets:</p>
                 <div className="flex flex-wrap gap-1.5">
                   {POPULAR_LOCATIONS.slice(0, 6).map((pop, idx) => (
                     <button
@@ -376,7 +376,7 @@ export const CreateMemoryModal: React.FC<CreateMemoryModalProps> = ({
                       onClick={() => handleSelectLocation(pop)}
                       className={`px-3 py-1.5 rounded-xl border transition-all text-xs font-semibold ${
                         location.city === pop.city && location.placeName === pop.placeName
-                          ? 'bg-purple-600 text-white border-purple-500'
+                          ? 'bg-violet-600 text-white border-violet-500'
                           : 'bg-slate-950/60 text-slate-300 border-slate-800 hover:border-slate-700'
                       }`}
                     >

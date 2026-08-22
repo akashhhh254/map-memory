@@ -29,6 +29,14 @@ export interface Person {
   lastMemoryDate?: string;
 }
 
+export interface AuthUser {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+  isAnonymous: boolean;
+}
+
 export interface Memory {
   id: string;
   title: string;
@@ -43,6 +51,7 @@ export interface Memory {
   eventName?: string;
   aiSummary?: string;
   mood?: string;
+  userId?: string;
   createdAt: string;
 }
 

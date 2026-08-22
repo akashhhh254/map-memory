@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { AppView, Collection, LocationData, Memory, Person, UserSettings } from './types';
+import { AppView, AuthUser, Collection, LocationData, Memory, Person, UserSettings } from './types';
 import { StorageService } from './services/storageService';
+import { AuthService } from './services/authService';
 import { ToastContainer, ToastMessage } from './components/Toast';
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
@@ -14,15 +15,21 @@ import { CollectionsView } from './components/CollectionsView';
 import { GalleryView } from './components/GalleryView';
 import { InsightsView } from './components/InsightsView';
 import { MemoriesListView } from './components/MemoriesListView';
+import { SettingsView } from './components/SettingsView';
 import { CreateMemoryModal } from './components/CreateMemoryModal';
 import { MemoryDetailModal } from './components/MemoryDetailModal';
 import { ShareModal } from './components/ShareModal';
 import { DemoTourModal } from './components/DemoTourModal';
+import { AuthModal } from './components/AuthModal';
 
 export default function App() {
   // Navigation & View State
   const [currentView, setCurrentView] = useState<AppView>('landing');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+  // Authentication State
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   // Core Data State
   const [memories, setMemories] = useState<Memory[]>([]);
@@ -56,33 +63,75 @@ export default function App() {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   };
 
-  // Initial Data Load
+  // Auth state listener
   useEffect(() => {
-    const loadedMemories = StorageService.getMemories();
-    const loadedPeople = StorageService.getPeople();
-    const loadedCollections = StorageService.getCollections();
-    const loadedSettings = StorageService.getSettings();
-
-    setMemories(loadedMemories);
-    setPeople(loadedPeople);
-    setCollections(loadedCollections);
-    setSettings(loadedSettings);
+    const unsubAuth = AuthService.subscribeToAuth((user) => {
+      setAuthUser(user);
+      if (user && user.displayName) {
+        setSettings((prev) => ({
+          ...prev,
+          userName: user.displayName || prev.userName,
+          userAvatar: user.photoURL || prev.userAvatar,
+        }));
+      }
+    });
+    return () => unsubAuth();
   }, []);
 
+  // Initial Data Load & Realtime Firestore Database Subscriptions
+  useEffect(() => {
+    // Initial local read
+    setMemories(StorageService.getMemories());
+    setPeople(StorageService.getPeople());
+    setCollections(StorageService.getCollections());
+    setSettings(StorageService.getSettings());
+
+    // Subscribe to Firestore realtime collections
+    const unsubMemories = StorageService.subscribeMemories((m) => {
+      setMemories(m);
+    });
+    const unsubPeople = StorageService.subscribePeople((p) => {
+      setPeople(p);
+    });
+    const unsubCollections = StorageService.subscribeCollections((c) => {
+      setCollections(c);
+    });
+
+    return () => {
+      unsubMemories();
+      unsubPeople();
+      unsubCollections();
+    };
+  }, []);
+
+  const handleSignOut = async () => {
+    await AuthService.signOutUser();
+    addToast('info', 'Signed Out', 'You have been signed out of your account.');
+  };
+
+  const handleAuthSuccess = (user: AuthUser) => {
+    setAuthUser(user);
+    addToast(
+      'success',
+      'Welcome Back!',
+      `Logged in as ${user.displayName || user.email || 'Explorer'}. Database synced.`
+    );
+  };
+
   // Save new Memory
-  const handleSaveMemory = (newMemory: Memory) => {
-    const updated = StorageService.saveMemory(newMemory);
+  const handleSaveMemory = async (newMemory: Memory) => {
+    const updated = await StorageService.saveMemory(newMemory);
     setMemories(updated);
     addToast(
       'success',
-      'Memory Saved',
-      `“${newMemory.title}” pinned to ${newMemory.location.city}.`
+      'Memory Saved to Cloud',
+      `“${newMemory.title}” saved and pinned to ${newMemory.location.city}.`
     );
   };
 
   // Delete Memory
-  const handleDeleteMemory = (id: string) => {
-    const updated = StorageService.deleteMemory(id);
+  const handleDeleteMemory = async (id: string) => {
+    const updated = await StorageService.deleteMemory(id);
     setMemories(updated);
     if (selectedMemory?.id === id) {
       setSelectedMemory(null);
@@ -91,36 +140,36 @@ export default function App() {
   };
 
   // Add Person
-  const handleAddPerson = (newPerson: Person) => {
-    const updated = StorageService.savePerson(newPerson);
+  const handleAddPerson = async (newPerson: Person) => {
+    const updated = await StorageService.savePerson(newPerson);
     setPeople(updated);
     addToast('success', 'Companion Added', `${newPerson.name} added to your network.`);
   };
 
   // Add Collection
-  const handleAddCollection = (newCol: Collection) => {
-    const updated = StorageService.saveCollection(newCol);
+  const handleAddCollection = async (newCol: Collection) => {
+    const updated = await StorageService.saveCollection(newCol);
     setCollections(updated);
     addToast('success', 'Collection Created', `“${newCol.name}” created.`);
   };
 
   // Delete Collection
-  const handleDeleteCollection = (id: string) => {
-    const updated = StorageService.deleteCollection(id);
+  const handleDeleteCollection = async (id: string) => {
+    const updated = await StorageService.deleteCollection(id);
     setCollections(updated);
     addToast('info', 'Collection Deleted', 'The collection was removed.');
   };
 
-  // Reset to Pristine Demo Data
-  const handleResetDemo = () => {
-    const { memories: m, people: p, collections: c } = StorageService.resetDemoData();
+  // Reset to Sample Data
+  const handleResetDemo = async () => {
+    const { memories: m, people: p, collections: c } = await StorageService.resetToDemoData();
     setMemories(m);
     setPeople(p);
     setCollections(c);
     addToast(
       'success',
-      'Demo Data Reset',
-      'Loaded 12 realistic Indian memories across Nagpur, Mumbai, Pune & Goa.'
+      'Sample Data Synced',
+      'Loaded connected worldwide memories across Paris, Tokyo, New York, London, Dubai & Mumbai.'
     );
   };
 
@@ -164,8 +213,21 @@ export default function App() {
             setIsCreateModalOpen(true);
           }}
           onOpenJudgeTour={() => setIsDemoTourOpen(true)}
+          onOpenAuth={() => setIsAuthModalOpen(true)}
           memories={memories}
           settings={settings}
+          authUser={authUser}
+        />
+        <AuthModal
+          isOpen={isAuthModalOpen}
+          onClose={() => setIsAuthModalOpen(false)}
+          onSuccess={handleAuthSuccess}
+        />
+        <DemoTourModal
+          isOpen={isDemoTourOpen}
+          onClose={() => setIsDemoTourOpen(false)}
+          onNavigate={setCurrentView}
+          onResetData={handleResetDemo}
         />
       </div>
     );
@@ -194,6 +256,9 @@ export default function App() {
         onToggleTheme={handleToggleTheme}
         onToggleMobileSidebar={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
         memoryCount={memories.length}
+        authUser={authUser}
+        onOpenAuth={() => setIsAuthModalOpen(true)}
+        onSignOut={handleSignOut}
       />
 
       {/* App Main Shell */}
@@ -208,6 +273,9 @@ export default function App() {
           peopleCount={people.length}
           placesCount={uniqueCitiesCount}
           settings={settings}
+          authUser={authUser}
+          onOpenAuth={() => setIsAuthModalOpen(true)}
+          onSignOut={handleSignOut}
         />
 
         {/* Dynamic View Body */}
@@ -314,6 +382,17 @@ export default function App() {
               settings={settings}
             />
           )}
+
+          {currentView === 'settings' && (
+            <SettingsView
+              settings={settings}
+              onUpdateSettings={(newSettings) => setSettings(newSettings)}
+              authUser={authUser}
+              onOpenAuth={() => setIsAuthModalOpen(true)}
+              onSignOut={handleSignOut}
+              onResetData={handleResetDemo}
+            />
+          )}
         </main>
       </div>
 
@@ -322,11 +401,11 @@ export default function App() {
         <div className="flex items-center gap-3 sm:gap-6">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-            <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">SYSTEM LIVE</span>
+            <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">DATABASE CONNECTED</span>
           </div>
           <div className="h-4 w-[1px] bg-slate-800 hidden sm:block"></div>
           <span className="text-[10px] text-slate-500 uppercase tracking-widest hidden sm:inline">
-            Nagpur Hub • Lat: 21.1458° N • Lng: 79.0882° E
+            Global Hub • Worldwide Memory Intelligence
           </span>
         </div>
         <div className="flex items-center gap-4">
@@ -334,6 +413,13 @@ export default function App() {
           <span className="text-[10px] text-violet-400 font-bold tracking-wider">⚡ POWERED BY MEMORY AI</span>
         </div>
       </footer>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={handleAuthSuccess}
+      />
 
       {/* Create Memory Modal */}
       {isCreateModalOpen && (

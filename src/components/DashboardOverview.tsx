@@ -52,7 +52,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       icon: MapPin,
       color: 'text-emerald-400',
       bg: 'bg-emerald-500/10 border-emerald-500/20',
-      change: 'Nagpur, Mumbai, Pune, Goa...',
+      change: 'Paris, Tokyo, New York, London...',
     },
     {
       label: 'CONNECTED PEOPLE',
