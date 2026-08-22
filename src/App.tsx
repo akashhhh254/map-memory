@@ -304,6 +304,7 @@ export default function App() {
                 setCreateInitialLocation(null);
                 setIsCreateModalOpen(true);
               }}
+              onOpenCreateWithLocation={handleMapLocationSelect}
               onSelectLocationFromMap={handleMapLocationSelect}
               settings={settings}
             />

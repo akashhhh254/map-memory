@@ -21,8 +21,11 @@ import { GeocodingService } from '../services/geocodingService';
 interface MemoryMapViewProps {
   memories: Memory[];
   people: Person[];
+  selectedMemory?: Memory | null;
   onSelectMemory: (memory: Memory) => void;
-  onOpenCreateWithLocation: (loc: LocationData) => void;
+  onOpenCreate?: () => void;
+  onOpenCreateWithLocation?: (loc: LocationData) => void;
+  onSelectLocationFromMap?: (loc: LocationData) => void;
   settings: UserSettings;
 }
 
@@ -51,8 +54,11 @@ const CITY_PRESETS = [
 export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
   memories,
   people,
+  selectedMemory: externalSelectedMemory,
   onSelectMemory,
+  onOpenCreate,
   onOpenCreateWithLocation,
+  onSelectLocationFromMap,
   settings,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -60,7 +66,7 @@ export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
   const polylineLayerRef = useRef<L.Polyline | null>(null);
 
-  const [selectedMemory, setSelectedMemory] = useState<Memory | null>(null);
+  const [selectedMemory, setSelectedMemory] = useState<Memory | null>(externalSelectedMemory || null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<LocationData[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -69,6 +75,20 @@ export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
   const [showTrails, setShowTrails] = useState(true);
   const [mapTileStyle, setMapTileStyle] = useState<'dark' | 'light' | 'satellite'>('dark');
   const [clickedCoords, setClickedCoords] = useState<{ lat: number; lng: number } | null>(null);
+
+  // Sync external selectedMemory
+  useEffect(() => {
+    if (externalSelectedMemory) {
+      setSelectedMemory(externalSelectedMemory);
+      if (mapInstanceRef.current && externalSelectedMemory.location) {
+        mapInstanceRef.current.flyTo(
+          [externalSelectedMemory.location.lat, externalSelectedMemory.location.lng],
+          14,
+          { duration: 1.2 }
+        );
+      }
+    }
+  }, [externalSelectedMemory]);
 
   // Initialize Map
   useEffect(() => {
@@ -109,8 +129,32 @@ export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
       map.on('click', async (e: L.LeafletMouseEvent) => {
         const { lat, lng } = e.latlng;
         setClickedCoords({ lat, lng });
-        const loc = await GeocodingService.reverseGeocode(lat, lng);
-        onOpenCreateWithLocation(loc);
+        try {
+          const loc = await GeocodingService.reverseGeocode(lat, lng);
+          if (typeof onOpenCreateWithLocation === 'function') {
+            onOpenCreateWithLocation(loc);
+          } else if (typeof onSelectLocationFromMap === 'function') {
+            onSelectLocationFromMap(loc);
+          } else if (typeof onOpenCreate === 'function') {
+            onOpenCreate();
+          }
+        } catch (err) {
+          console.error('Geocoding error on map click:', err);
+          const fallbackLoc: LocationData = {
+            placeName: 'Selected Location',
+            city: 'Unknown City',
+            country: 'Earth',
+            lat,
+            lng,
+          };
+          if (typeof onOpenCreateWithLocation === 'function') {
+            onOpenCreateWithLocation(fallbackLoc);
+          } else if (typeof onSelectLocationFromMap === 'function') {
+            onSelectLocationFromMap(fallbackLoc);
+          } else if (typeof onOpenCreate === 'function') {
+            onOpenCreate();
+          }
+        }
       });
 
       mapInstanceRef.current = map;
