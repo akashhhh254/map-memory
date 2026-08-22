@@ -40,8 +40,13 @@ const CATEGORY_COLORS: Record<MemoryCategory, string> = {
   Other: '#64748B', // Slate
 };
 
+const WORLD_BOUNDS: L.LatLngBoundsLiteral = [
+  [-85.05112878, -180],
+  [85.05112878, 180],
+];
+
 const CITY_PRESETS = [
-  { name: 'World View', center: [20.0, 10.0], zoom: 2 },
+  { name: 'World View', center: [20.0, 0.0], zoom: 2 },
   { name: 'Paris', center: [48.8566, 2.3522], zoom: 12 },
   { name: 'Tokyo', center: [35.6762, 139.6503], zoom: 12 },
   { name: 'New York', center: [40.7128, -74.006], zoom: 12 },
@@ -96,8 +101,13 @@ export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
 
     if (!mapInstanceRef.current) {
       const map = L.map(mapContainerRef.current, {
-        center: [20.5937, 78.9629],
-        zoom: 5,
+        center: [20.0, 0.0],
+        zoom: 2.5,
+        minZoom: 2,
+        maxZoom: 19,
+        maxBounds: WORLD_BOUNDS,
+        maxBoundsViscosity: 1.0,
+        worldCopyJump: false,
         zoomControl: false,
       });
 
@@ -117,6 +127,9 @@ export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
       const tileLayer = L.tileLayer(getTileUrl(mapTileStyle), {
         attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap',
         maxZoom: 19,
+        minZoom: 2,
+        noWrap: true,
+        bounds: WORLD_BOUNDS,
       }).addTo(map);
 
       (map as any)._customTileLayer = tileLayer;
@@ -161,7 +174,10 @@ export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
     }
 
     return () => {
-      // Don't destroy on every rerender
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
     };
   }, []);
 
@@ -185,6 +201,9 @@ export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
     const tileLayer = L.tileLayer(getTileUrl(mapTileStyle), {
       attribution: '&copy; CARTO &copy; OpenStreetMap',
       maxZoom: 19,
+      minZoom: 2,
+      noWrap: true,
+      bounds: WORLD_BOUNDS,
     }).addTo(map);
     (map as any)._customTileLayer = tileLayer;
   }, [mapTileStyle]);
@@ -306,6 +325,26 @@ export const MemoryMapView: React.FC<MemoryMapViewProps> = ({
 
   const handleCitySelect = (cityName: string) => {
     setSelectedCity(cityName);
+    if (!mapInstanceRef.current) return;
+
+    if (cityName === 'World View') {
+      mapInstanceRef.current.flyTo([20.0, 0.0], 2.5, { duration: 1.2 });
+      return;
+    }
+
+    if (cityName === 'All Places') {
+      const latLngs: [number, number][] = memories
+        .filter((m) => m.location?.lat && m.location?.lng)
+        .map((m) => [m.location.lat, m.location.lng]);
+
+      if (latLngs.length > 0) {
+        mapInstanceRef.current.fitBounds(L.latLngBounds(latLngs), { padding: [60, 60], maxZoom: 14 });
+      } else {
+        mapInstanceRef.current.flyTo([20.0, 0.0], 2.5, { duration: 1.2 });
+      }
+      return;
+    }
+
     const preset = CITY_PRESETS.find((c) => c.name === cityName);
     if (preset && mapInstanceRef.current) {
       mapInstanceRef.current.flyTo(preset.center as [number, number], preset.zoom, {

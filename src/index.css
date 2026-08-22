@@ -51,6 +51,17 @@
 .leaflet-container {
   font-family: inherit !important;
   background: #0A0A0F !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
+  outline: none;
+}
+
+.leaflet-tile-pane,
+.leaflet-layer,
+.leaflet-tile-container,
+.leaflet-tile {
+  background-repeat: no-repeat !important;
 }
 
 /* Glassmorphic sleek utilities */
