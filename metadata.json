@@ -1,0 +1,7 @@
+{
+  "name": "Memory Map",
+  "description": "Personal memory intelligence platform transforming maps into living timelines, relationship graphs, and AI-powered stories.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
