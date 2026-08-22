@@ -3,19 +3,13 @@ import {
   Compass,
   MapPin,
   Sparkles,
-  Users,
-  Clock,
   ArrowRight,
   GitFork,
-  Image as ImageIcon,
   CheckCircle2,
-  Share2,
   Calendar,
-  Layers,
-  Award,
   Play,
-  Heart,
-  TrendingUp,
+  Bookmark,
+  Globe2,
 } from 'lucide-react';
 import { AppView, AuthUser, Memory, UserSettings } from '../types';
 
@@ -35,35 +29,32 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onOpenJudgeTour,
   onOpenAuth,
   memories,
-  settings,
   authUser,
 }) => {
-  const [activeTab, setActiveTab] = useState<'map' | 'graph' | 'timeline' | 'ai'>('map');
-
   return (
-    <div className="min-h-screen bg-[#0A0A0F] text-slate-100">
+    <div className="min-h-screen bg-[#0C0D12] text-stone-200">
       {/* Landing Sub-Nav */}
-      <div className="border-b border-slate-800/80 bg-[#0A0A0F]/80 backdrop-blur-md sticky top-16 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-6 text-xs font-semibold text-slate-400">
-            <a href="#features" className="hover:text-violet-400 transition-colors">Features</a>
-            <a href="#how-it-works" className="hover:text-violet-400 transition-colors">How It Works</a>
-            <a href="#graph-section" className="hover:text-violet-400 transition-colors">Relationship Graph</a>
-            <a href="#innovation" className="hover:text-violet-400 transition-colors">Why Memory Map</a>
+      <div className="border-b border-white/[0.06] bg-[#0C0D12]/90 backdrop-blur-md sticky top-16 z-30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between">
+          <div className="flex items-center gap-6 text-xs font-medium text-stone-400">
+            <a href="#manifesto" className="hover:text-stone-100 transition-colors">Manifesto</a>
+            <a href="#features" className="hover:text-stone-100 transition-colors">Architecture</a>
+            <a href="#how-it-works" className="hover:text-stone-100 transition-colors">Workflow</a>
+            <a href="#innovation" className="hover:text-stone-100 transition-colors">Why Memory Map</a>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <button
               onClick={onOpenJudgeTour}
-              className="text-xs font-bold text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 px-3 py-1.5 rounded-lg border border-amber-500/30 transition-all flex items-center gap-1.5 cursor-pointer"
+              className="text-xs font-medium text-stone-300 bg-stone-900 hover:bg-stone-800 px-3 py-1 rounded border border-white/[0.08] transition-colors flex items-center gap-1.5 cursor-pointer"
             >
-              <Award className="w-3.5 h-3.5" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               <span>Product Tour</span>
             </button>
             {authUser ? (
               <button
                 onClick={() => onNavigate('overview')}
-                className="text-xs font-semibold text-white bg-violet-600 hover:bg-violet-500 px-3.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center gap-1 cursor-pointer"
+                className="text-xs font-semibold text-stone-950 bg-amber-500 hover:bg-amber-400 px-3 py-1 rounded shadow-sm transition-colors flex items-center gap-1 cursor-pointer"
               >
                 <span>Dashboard</span>
                 <ArrowRight className="w-3 h-3" />
@@ -71,7 +62,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             ) : (
               <button
                 onClick={onOpenAuth}
-                className="text-xs font-semibold text-violet-300 bg-violet-600/20 hover:bg-violet-600/30 border border-violet-500/30 px-3.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center gap-1 cursor-pointer"
+                className="text-xs font-medium text-stone-200 bg-stone-900 hover:bg-stone-800 border border-white/[0.08] px-3 py-1 rounded shadow-sm transition-colors flex items-center gap-1 cursor-pointer"
               >
                 <span>Sign In</span>
               </button>
@@ -80,106 +71,101 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </div>
 
-      {/* HERO SECTION */}
-      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-32">
-        {/* Glow ambient backgrounds */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/3 right-10 w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-
+      {/* HERO SECTION - Refined Editorial Cartography */}
+      <section id="manifesto" className="relative pt-12 pb-20 lg:pt-20 lg:pb-28 border-b border-white/[0.06]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            {/* Left Copy */}
+            {/* Left Editorial Copy */}
             <div className="lg:col-span-6 space-y-6 text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-semibold">
-                <Sparkles className="w-3.5 h-3.5 text-violet-400" />
-                <span>Next-Gen Personal Memory Intelligence</span>
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-stone-900 border border-white/[0.08] text-stone-300 text-[11px] font-mono">
+                <Compass className="w-3.5 h-3.5 text-amber-400" />
+                <span>An Interconnected Atlas for Your Life Stories</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold tracking-tight leading-[1.1] text-white">
-                “Every Place Has a <span className="bg-gradient-to-r from-violet-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">Story.”</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal tracking-tight leading-[1.12] text-stone-100">
+                Every Place Has a <span className="italic text-amber-400/90 font-serif">Story.</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-xl">
-                Turn the places you've visited into a living map of your memories, people and moments. Connect places, photos, dates, friends, and AI-synthesized narratives into one searchable interactive graph.
+              <p className="text-base sm:text-lg text-stone-300 font-normal leading-relaxed max-w-xl font-sans">
+                Transform the places you have explored into a living, interconnected archive of moments, companions, and geographical footprints. Connect places, photos, dates, friends, and narratives into one searchable memory graph.
               </p>
 
-              <div className="flex flex-wrap items-center gap-4 pt-2">
+              <div className="flex flex-wrap items-center gap-3 pt-2">
                 <button
                   onClick={onOpenCreate}
-                  className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-violet-600 via-violet-500 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-sm shadow-xl shadow-violet-600/30 hover:shadow-violet-600/40 hover:-translate-y-0.5 transition-all flex items-center gap-2 group"
+                  className="px-5 py-2.5 rounded bg-amber-500 hover:bg-amber-400 text-stone-950 font-semibold text-xs transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
                 >
-                  <Sparkles className="w-4 h-4" />
-                  <span>Create Your First Memory</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Archive First Memory</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
 
                 <button
                   onClick={() => onNavigate('map')}
-                  className="px-6 py-3.5 rounded-2xl bg-[#11111A] hover:bg-slate-800 text-slate-200 hover:text-white font-semibold text-sm border border-slate-800 hover:border-slate-700 transition-all flex items-center gap-2"
+                  className="px-5 py-2.5 rounded bg-stone-900 hover:bg-stone-800 text-stone-200 font-medium text-xs border border-white/[0.08] transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
                 >
-                  <Compass className="w-4 h-4 text-violet-400" />
+                  <Compass className="w-3.5 h-3.5 text-amber-400" />
                   <span>Explore Interactive Map</span>
                 </button>
               </div>
 
-              <div className="flex items-center gap-6 pt-4 text-xs text-slate-400 border-t border-slate-800">
+              <div className="flex items-center gap-6 pt-4 text-xs font-mono text-stone-400 border-t border-white/[0.06]">
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  <span>Interactive Leaflet Map</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Leaflet Cartography</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-violet-400" />
-                  <span>Personal Relationship Graph</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" />
+                  <span>D3.js Relationship Graph</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-indigo-400" />
-                  <span>AI Story Intelligence</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Cloud Persistence</span>
                 </div>
               </div>
             </div>
 
             {/* Right Interactive Hero Preview Mockup */}
             <div className="lg:col-span-6 relative">
-              <div className="relative mx-auto rounded-3xl p-3 bg-gradient-to-b from-slate-800/80 to-[#11111A] border border-slate-800 shadow-2xl shadow-violet-950/40 backdrop-blur-2xl">
-                {/* Fake App Window Frame */}
-                <div className="bg-[#0A0A0F] rounded-2xl overflow-hidden border border-slate-800 relative">
+              <div className="rounded-lg p-2.5 bg-[#141620] border border-white/[0.08] shadow-xl">
+                {/* Window Frame */}
+                <div className="bg-[#090A0E] rounded overflow-hidden border border-white/[0.06] relative">
                   {/* Top Bar */}
-                  <div className="px-4 py-3 bg-[#11111A] border-b border-slate-800 flex items-center justify-between">
+                  <div className="px-3.5 py-2 bg-[#12141C] border-b border-white/[0.06] flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-rose-500/80" />
-                      <div className="w-3 h-3 rounded-full bg-amber-500/80" />
-                      <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-                      <span className="text-[11px] font-mono text-slate-400 ml-2 font-medium">memorymap.app/worldwide</span>
+                      <div className="w-2.5 h-2.5 rounded-full bg-stone-700" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-stone-700" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-stone-700" />
+                      <span className="text-[10px] font-mono text-stone-400 ml-2 font-medium">memorymap.app/atlas</span>
                     </div>
-                    <span className="text-[10px] uppercase font-bold text-violet-400 px-2 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/20">
-                      Live Map Engine
+                    <span className="text-[9px] font-mono uppercase font-medium text-amber-400 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
+                      Single World Viewport
                     </span>
                   </div>
 
                   {/* Visual Map Canvas Simulation */}
-                  <div className="relative h-80 sm:h-96 w-full bg-[#07070b] overflow-hidden">
-                    {/* Background stylized grid / map paths */}
-                    <svg className="absolute inset-0 w-full h-full opacity-30 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+                  <div className="relative h-80 sm:h-96 w-full bg-[#090A0E] overflow-hidden">
+                    {/* Background grid */}
+                    <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
                       <defs>
-                        <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
-                          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+                        <pattern id="grid-pattern-hero" width="32" height="32" patternUnits="userSpaceOnUse">
+                          <path d="M 32 0 L 0 0 0 32" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
                         </pattern>
                       </defs>
-                      <rect width="100%" height="100%" fill="url(#grid-pattern)" />
-                      {/* Stylized connecting routes */}
+                      <rect width="100%" height="100%" fill="url(#grid-pattern-hero)" />
+                      {/* Connecting routes */}
                       <path
                         d="M 60 220 Q 150 140 240 180 T 380 90"
                         fill="none"
-                        stroke="#8B5CF6"
-                        strokeWidth="3"
-                        strokeDasharray="6 4"
-                        className="animate-pulse"
+                        stroke="#F59E0B"
+                        strokeWidth="2"
+                        strokeDasharray="4 4"
                       />
                       <path
                         d="M 240 180 Q 290 260 360 270"
                         fill="none"
                         stroke="#10B981"
-                        strokeWidth="2.5"
+                        strokeWidth="2"
                         strokeDasharray="4 4"
                       />
                     </svg>
@@ -187,64 +173,62 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     {/* Pin 1: Paris */}
                     <div className="absolute top-16 left-16 group cursor-pointer">
                       <div className="relative flex items-center justify-center">
-                        <div className="absolute w-8 h-8 rounded-full bg-violet-500/40 animate-ping-slow" />
-                        <div className="w-7 h-7 rounded-xl bg-violet-600 text-white flex items-center justify-center shadow-lg shadow-violet-600/50 ring-2 ring-violet-400">
-                          <MapPin className="w-4 h-4" />
+                        <div className="w-6 h-6 rounded bg-stone-900 border border-amber-500/80 text-amber-400 flex items-center justify-center shadow-sm">
+                          <MapPin className="w-3.5 h-3.5" />
                         </div>
                       </div>
-                      <div className="mt-1 px-2 py-0.5 rounded-md bg-[#11111A] border border-slate-800 text-[10px] font-bold text-violet-300 whitespace-nowrap shadow-md">
-                        📍 Paris, France
+                      <div className="mt-1 px-1.5 py-0.5 rounded bg-stone-900 border border-white/[0.08] text-[9px] font-mono text-stone-200 whitespace-nowrap shadow-sm">
+                        Paris, France
                       </div>
                     </div>
 
                     {/* Pin 2: Tokyo */}
                     <div className="absolute bottom-20 left-44 group cursor-pointer">
                       <div className="relative flex items-center justify-center">
-                        <div className="w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-lg shadow-emerald-600/50 ring-2 ring-emerald-400">
-                          <MapPin className="w-4 h-4" />
+                        <div className="w-6 h-6 rounded bg-stone-900 border border-emerald-500/80 text-emerald-400 flex items-center justify-center shadow-sm">
+                          <MapPin className="w-3.5 h-3.5" />
                         </div>
                       </div>
-                      <div className="mt-1 px-2 py-0.5 rounded-md bg-[#11111A] border border-slate-800 text-[10px] font-bold text-emerald-300 whitespace-nowrap shadow-md">
-                        📍 Tokyo, Japan
+                      <div className="mt-1 px-1.5 py-0.5 rounded bg-stone-900 border border-white/[0.08] text-[9px] font-mono text-stone-200 whitespace-nowrap shadow-sm">
+                        Tokyo, Japan
                       </div>
                     </div>
 
                     {/* Pin 3: New York */}
                     <div className="absolute top-14 right-16 group cursor-pointer">
                       <div className="relative flex items-center justify-center">
-                        <div className="w-7 h-7 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-600/50 ring-2 ring-indigo-400">
-                          <MapPin className="w-4 h-4" />
+                        <div className="w-6 h-6 rounded bg-stone-900 border border-sky-500/80 text-sky-400 flex items-center justify-center shadow-sm">
+                          <MapPin className="w-3.5 h-3.5" />
                         </div>
                       </div>
-                      <div className="mt-1 px-2 py-0.5 rounded-md bg-[#11111A] border border-slate-800 text-[10px] font-bold text-indigo-300 whitespace-nowrap shadow-md">
-                        📍 New York, USA
+                      <div className="mt-1 px-1.5 py-0.5 rounded bg-stone-900 border border-white/[0.08] text-[9px] font-mono text-stone-200 whitespace-nowrap shadow-sm">
+                        New York, USA
                       </div>
                     </div>
 
                     {/* Floating Hero Card Preview */}
-                    <div className="absolute bottom-4 right-4 max-w-[260px] sm:max-w-[280px] p-3.5 rounded-2xl bg-[#11111A]/95 backdrop-blur-xl border border-violet-500/30 shadow-2xl shadow-black/80 space-y-2">
+                    <div className="absolute bottom-3 right-3 max-w-[260px] p-3 rounded bg-stone-900/95 backdrop-blur-md border border-white/[0.08] shadow-lg space-y-2">
                       <div className="flex items-center gap-2">
                         <img
                           src="https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=200&auto=format&fit=crop&q=80"
                           alt="Eiffel Tower Sunset"
-                          className="w-12 h-12 rounded-xl object-cover ring-1 ring-violet-500/40"
+                          className="w-10 h-10 rounded object-cover border border-white/[0.08]"
                         />
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-xs font-bold text-white truncate">Eiffel Tower Sunset</h4>
-                          <p className="text-[10px] text-violet-300 flex items-center gap-1 font-medium">
-                            <MapPin className="w-3 h-3" /> Paris, France
+                          <h4 className="text-xs font-semibold text-stone-100 truncate">Eiffel Tower Sunset</h4>
+                          <p className="text-[10px] text-amber-400/90 font-mono truncate">
+                            Paris, France
                           </p>
-                          <p className="text-[9px] text-slate-400">📅 July 2026 • 2 People</p>
                         </div>
                       </div>
-                      <p className="text-[11px] text-slate-300 italic line-clamp-2 leading-relaxed bg-[#0A0A0F] p-1.5 rounded-lg border border-slate-800">
+                      <p className="text-[11px] text-stone-300 font-serif italic line-clamp-2 leading-relaxed bg-stone-950 p-2 rounded border border-white/[0.04]">
                         “Watched the golden twilight turn into shimmering night lights across Paris.”
                       </p>
                       <button
                         onClick={() => onNavigate('map')}
-                        className="w-full py-1.5 rounded-lg bg-violet-600/20 hover:bg-violet-600 text-violet-200 hover:text-white text-[10px] font-bold border border-violet-500/40 transition-colors flex items-center justify-center gap-1"
+                        className="w-full py-1 rounded bg-stone-800 hover:bg-stone-700 text-stone-200 text-[10px] font-medium border border-stone-700 transition-colors flex items-center justify-center gap-1 cursor-pointer"
                       >
-                        <span>View Memory on Map</span>
+                        <span>View on Map</span>
                         <ArrowRight className="w-3 h-3" />
                       </button>
                     </div>
@@ -256,153 +240,136 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* SOCIAL PROOF / VALUE SECTION: "Your Life. Connected." */}
-      <section id="features" className="py-20 border-t border-slate-800 bg-[#0A0A0F] relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-12">
-          <div className="space-y-3 max-w-2xl mx-auto">
-            <span className="text-xs uppercase font-bold tracking-widest text-violet-400">Core Value Proposition</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-white tracking-tight">
-              Your Life. Connected.
+      {/* CORE VALUE SECTION */}
+      <section id="features" className="py-16 border-b border-white/[0.06] bg-[#0C0D12]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="space-y-2 max-w-2xl">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-amber-400">Core Pillars</span>
+            <h2 className="text-2xl sm:text-3xl font-display font-semibold text-stone-100 tracking-tight">
+              An Architectural Model for Life Experience
             </h2>
-            <p className="text-sm sm:text-base text-slate-400">
-              Transform fragmented camera rolls and forgotten calendar dates into a structured visual knowledge base.
+            <p className="text-xs sm:text-sm text-stone-400">
+              Transform fragmented camera rolls and forgotten dates into a structured personal knowledge graph.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Block 1: Remember */}
-            <div className="p-8 rounded-3xl bg-[#11111A] border border-slate-800 hover:border-violet-500/40 transition-all text-left space-y-4 relative group">
-              <div className="w-12 h-12 rounded-2xl bg-violet-600/15 border border-violet-500/30 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
-                <Sparkles className="w-6 h-6" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Block 1 */}
+            <div className="p-6 rounded-lg bg-[#12141C] border border-white/[0.07] text-left space-y-3">
+              <div className="w-9 h-9 rounded bg-stone-900 border border-white/[0.08] flex items-center justify-center text-amber-400">
+                <Bookmark className="w-4 h-4" />
               </div>
-              <h3 className="text-xl font-bold font-display text-white">Remember</h3>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                Never lose the story behind a photo. Preserve emotional context, companions, atmosphere, and milestones.
+              <h3 className="text-base font-semibold font-display text-stone-100">Preserve Context</h3>
+              <p className="text-xs text-stone-400 leading-relaxed">
+                Never lose the story behind a photo. Preserve emotional context, companions, atmosphere, and milestones in high fidelity.
               </p>
-              <div className="pt-2 text-xs text-violet-400 font-semibold flex items-center gap-1">
-                <span>Multi-photo story archives</span>
-                <ArrowRight className="w-3 h-3" />
-              </div>
             </div>
 
-            {/* Block 2: Connect */}
-            <div className="p-8 rounded-3xl bg-[#11111A] border border-slate-800 hover:border-indigo-500/40 transition-all text-left space-y-4 relative group">
-              <div className="w-12 h-12 rounded-2xl bg-indigo-600/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
-                <GitFork className="w-6 h-6" />
+            {/* Block 2 */}
+            <div className="p-6 rounded-lg bg-[#12141C] border border-white/[0.07] text-left space-y-3">
+              <div className="w-9 h-9 rounded bg-stone-900 border border-white/[0.08] flex items-center justify-center text-amber-400">
+                <GitFork className="w-4 h-4" />
               </div>
-              <h3 className="text-xl font-bold font-display text-white">Connect</h3>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                Connect places with people, events, and memories. Understand which friends you travel with most and places you share.
+              <h3 className="text-base font-semibold font-display text-stone-100">Interconnect Relationships</h3>
+              <p className="text-xs text-stone-400 leading-relaxed">
+                Connect places with people, events, and memories. Understand which friends you travel with most and the spaces you share.
               </p>
-              <div className="pt-2 text-xs text-indigo-400 font-semibold flex items-center gap-1">
-                <span>Interactive Relationship Graph</span>
-                <ArrowRight className="w-3 h-3" />
-              </div>
             </div>
 
-            {/* Block 3: Discover */}
-            <div className="p-8 rounded-3xl bg-[#11111A] border border-slate-800 hover:border-emerald-500/40 transition-all text-left space-y-4 relative group">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-600/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
-                <Compass className="w-6 h-6" />
+            {/* Block 3 */}
+            <div className="p-6 rounded-lg bg-[#12141C] border border-white/[0.07] text-left space-y-3">
+              <div className="w-9 h-9 rounded bg-stone-900 border border-white/[0.08] flex items-center justify-center text-amber-400">
+                <Globe2 className="w-4 h-4" />
               </div>
-              <h3 className="text-xl font-bold font-display text-white">Discover</h3>
-              <p className="text-sm text-slate-400 leading-relaxed">
+              <h3 className="text-base font-semibold font-display text-stone-100">Discover Trajectories</h3>
+              <p className="text-xs text-stone-400 leading-relaxed">
                 See patterns across your personal timeline. Spot growth, geographical hubs, milestone anniversaries, and travel clusters.
               </p>
-              <div className="pt-2 text-xs text-emerald-400 font-semibold flex items-center gap-1">
-                <span>Chronological Life Timeline</span>
-                <ArrowRight className="w-3 h-3" />
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* HOW IT WORKS / ARCHITECTURE INNOVATION */}
-      <section id="how-it-works" className="py-20 border-t border-slate-800 bg-[#0A0A0F]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="text-xs uppercase font-bold tracking-widest text-emerald-400">Simple 3-Step Flow</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-white tracking-tight">
-              From A Point on Map to Living Intelligence
+      {/* HOW IT WORKS */}
+      <section id="how-it-works" className="py-16 border-b border-white/[0.06] bg-[#0F1118]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="space-y-2 max-w-2xl">
+            <span className="text-[11px] font-mono uppercase tracking-wider text-amber-400">Workflow</span>
+            <h2 className="text-2xl sm:text-3xl font-display font-semibold text-stone-100 tracking-tight">
+              From a Coordinate on Map to Living Intelligence
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6 rounded-2xl bg-[#11111A] border border-slate-800 space-y-3">
-              <div className="text-2xl font-mono font-bold text-violet-400">01</div>
-              <h4 className="text-base font-bold text-white">Pin the Location</h4>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Select any location directly on the interactive Leaflet map or search cities like Nagpur, Mumbai, Pune, Goa, Delhi, or Hyderabad.
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-lg bg-[#141622] border border-white/[0.07] space-y-2">
+              <div className="text-xs font-mono font-bold text-amber-400">01 / GEOCODING</div>
+              <h4 className="text-sm font-semibold text-stone-100">Pin the Exact Location</h4>
+              <p className="text-xs text-stone-400 leading-relaxed">
+                Select any location directly on the Leaflet map or search global cities with real-time Nominatim coordinate resolution.
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-[#11111A] border border-slate-800 space-y-3">
-              <div className="text-2xl font-mono font-bold text-indigo-400">02</div>
-              <h4 className="text-base font-bold text-white">Attach People & Photos</h4>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Tag the friends present, upload high-res photos, set the date, and let the AI summarize the emotional heartbeat of the story.
+            <div className="p-6 rounded-lg bg-[#141622] border border-white/[0.07] space-y-2">
+              <div className="text-xs font-mono font-bold text-amber-400">02 / CONTEXT</div>
+              <h4 className="text-sm font-semibold text-stone-100">Attach People, Photos & Moods</h4>
+              <p className="text-xs text-stone-400 leading-relaxed">
+                Tag present companions, upload high-res memories, log dates, and let the AI summarize the narrative heart of the experience.
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-[#11111A] border border-slate-800 space-y-3">
-              <div className="text-2xl font-mono font-bold text-emerald-400">03</div>
-              <h4 className="text-base font-bold text-white">Explore the Memory Graph</h4>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Watch the platform automatically interconnect: Person → Memory → Place → Event → Photo → Date across your lifelong network.
+            <div className="p-6 rounded-lg bg-[#141622] border border-white/[0.07] space-y-2">
+              <div className="text-xs font-mono font-bold text-amber-400">03 / SYNTHESIS</div>
+              <h4 className="text-sm font-semibold text-stone-100">Explore the Dynamic Graph</h4>
+              <p className="text-xs text-stone-400 leading-relaxed">
+                The platform automatically interconnects: Person → Memory → Place → Event → Photo across your lifelong network.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* PRODUCT VALUE & ENGINEERING SPOTLIGHT */}
-      <section id="innovation" className="py-16 border-t border-slate-800 bg-[#0A0A0F]">
+      {/* WHY MEMORY MAP */}
+      <section id="innovation" className="py-16 bg-[#0C0D12]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="p-8 sm:p-10 rounded-3xl bg-[#11111A] border border-violet-500/30 shadow-2xl shadow-violet-950/50 space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-violet-500/20 text-violet-300 border border-violet-500/30 flex items-center justify-center">
-                  <Sparkles className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold font-display text-white">Why Memory Map — Built For Living Memories</h3>
-                  <p className="text-xs text-slate-400">Transforming scattered photos and places into an intelligent connected knowledge graph</p>
-                </div>
+          <div className="p-7 sm:p-8 rounded-lg bg-[#13151D] border border-white/[0.08] space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-white/[0.06]">
+              <div>
+                <h3 className="text-lg font-display font-semibold text-stone-100">Why Memory Map — Built for Life Long Archiving</h3>
+                <p className="text-xs text-stone-400">Transforming scattered photos and places into an intelligent connected knowledge graph</p>
               </div>
 
               <button
                 onClick={onOpenJudgeTour}
-                className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs shadow-md transition-all flex items-center gap-1.5"
+                className="px-3.5 py-1.5 rounded bg-amber-500 hover:bg-amber-400 text-stone-950 font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <Play className="w-3.5 h-3.5 fill-current" />
-                <span>Take a 60-Second Product Tour</span>
+                <Play className="w-3 h-3 fill-current" />
+                <span>Take Product Tour</span>
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
-              <div className="p-4 rounded-xl bg-[#0A0A0F] border border-slate-800">
-                <p className="text-[10px] font-bold text-rose-400 uppercase">1. The Problem</p>
-                <p className="text-xs text-slate-300 mt-1 font-medium">
-                  Photos get lost in massive unsorted camera rolls without location context or relational meaning.
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="p-3.5 rounded bg-stone-900/80 border border-white/[0.05]">
+                <p className="text-[10px] font-mono font-bold text-rose-400 uppercase">1. The Problem</p>
+                <p className="text-xs text-stone-300 mt-1">
+                  Photos get buried in unsorted camera rolls without geographical context or social connection.
                 </p>
               </div>
-              <div className="p-4 rounded-xl bg-[#0A0A0F] border border-slate-800">
-                <p className="text-[10px] font-bold text-violet-400 uppercase">2. The Solution</p>
-                <p className="text-xs text-slate-300 mt-1 font-medium">
+              <div className="p-3.5 rounded bg-stone-900/80 border border-white/[0.05]">
+                <p className="text-[10px] font-mono font-bold text-amber-400 uppercase">2. The Solution</p>
+                <p className="text-xs text-stone-300 mt-1">
                   A personal memory intelligence system tying Places + People + Stories + Dates together seamlessly.
                 </p>
               </div>
-              <div className="p-4 rounded-xl bg-[#0A0A0F] border border-slate-800">
-                <p className="text-[10px] font-bold text-emerald-400 uppercase">3. The Intelligence</p>
-                <p className="text-xs text-slate-300 mt-1 font-medium">
-                  Interactive Personal Memory Graph + OpenStreetMap + Gemini AI Auto-Organization.
+              <div className="p-3.5 rounded bg-stone-900/80 border border-white/[0.05]">
+                <p className="text-[10px] font-mono font-bold text-emerald-400 uppercase">3. The Architecture</p>
+                <p className="text-xs text-stone-300 mt-1">
+                  Interactive D3.js Network Graph + Leaflet Map + Firebase Cloud Storage synchronization.
                 </p>
               </div>
-              <div className="p-4 rounded-xl bg-[#0A0A0F] border border-slate-800">
-                <p className="text-[10px] font-bold text-indigo-400 uppercase">4. The Experience</p>
-                <p className="text-xs text-slate-300 mt-1 font-medium">
-                  A permanent, private digital archive preserving a lifetime of meaningful stories and connections.
+              <div className="p-3.5 rounded bg-stone-900/80 border border-white/[0.05]">
+                <p className="text-[10px] font-mono font-bold text-sky-400 uppercase">4. The Outcome</p>
+                <p className="text-xs text-stone-300 mt-1">
+                  A private, permanent digital atlas preserving a lifetime of meaningful stories and connections.
                 </p>
               </div>
             </div>
@@ -411,22 +378,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* FOOTER */}
-      <footer className="py-12 border-t border-slate-800 bg-[#0A0A0F] text-xs text-slate-400">
+      <footer className="py-10 border-t border-white/[0.06] bg-[#090A0E] text-xs text-stone-500 font-mono">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-violet-600 flex items-center justify-center text-white">
-              <Compass className="w-3.5 h-3.5" />
+            <div className="w-5 h-5 rounded bg-stone-900 border border-amber-500/40 flex items-center justify-center text-amber-400">
+              <Compass className="w-3 h-3" />
             </div>
-            <span className="font-display font-bold text-sm text-white">MEMORY MAP</span>
-            <span className="text-slate-600">— Every Place Has a Story.</span>
+            <span className="font-semibold text-stone-300">MEMORY MAP</span>
+            <span className="text-stone-600">— Atlas of Life Moments</span>
           </div>
 
-          <div className="flex items-center gap-4 text-slate-400">
-            <button onClick={() => onNavigate('overview')} className="hover:text-white transition-colors">Dashboard</button>
-            <button onClick={() => onNavigate('map')} className="hover:text-white transition-colors">Map</button>
-            <button onClick={() => onNavigate('timeline')} className="hover:text-white transition-colors">Timeline</button>
-            <button onClick={() => onNavigate('graph')} className="hover:text-white transition-colors">Graph</button>
-            <button onClick={onOpenJudgeTour} className="text-amber-400 hover:underline">Judge Mode</button>
+          <div className="flex items-center gap-4 text-stone-400">
+            <button onClick={() => onNavigate('overview')} className="hover:text-stone-200 transition-colors cursor-pointer">Dashboard</button>
+            <button onClick={() => onNavigate('map')} className="hover:text-stone-200 transition-colors cursor-pointer">Map</button>
+            <button onClick={() => onNavigate('timeline')} className="hover:text-stone-200 transition-colors cursor-pointer">Timeline</button>
+            <button onClick={() => onNavigate('graph')} className="hover:text-stone-200 transition-colors cursor-pointer">Graph</button>
+            <button onClick={onOpenJudgeTour} className="text-amber-400 hover:underline cursor-pointer">Product Tour</button>
           </div>
         </div>
       </footer>

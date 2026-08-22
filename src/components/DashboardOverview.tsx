@@ -8,11 +8,8 @@ import {
   ArrowRight,
   Plus,
   Calendar,
-  Award,
   GitFork,
-  Heart,
-  TrendingUp,
-  Tag,
+  ArrowUpRight,
 } from 'lucide-react';
 import { AppView, Memory, Person, UserSettings } from '../types';
 
@@ -31,7 +28,6 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   onNavigate,
   onSelectMemory,
   onOpenCreate,
-  settings,
 }) => {
   // Calculate unique places count
   const uniqueCities = new Set(memories.map((m) => m.location.city));
@@ -39,36 +35,28 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 
   const stats = [
     {
-      label: 'TOTAL MEMORIES',
+      label: 'Archived Memories',
       value: memories.length,
-      icon: Sparkles,
-      color: 'text-violet-400',
-      bg: 'bg-violet-500/10 border-violet-500/20',
-      change: '+4 this month',
+      unit: 'stories',
+      change: 'Active Archive',
     },
     {
-      label: 'PLACES VISITED',
+      label: 'Global Footprint',
       value: uniqueCities.size,
-      icon: MapPin,
-      color: 'text-emerald-400',
-      bg: 'bg-emerald-500/10 border-emerald-500/20',
-      change: 'Paris, Tokyo, New York, London...',
+      unit: 'cities',
+      change: 'Worldwide pins',
     },
     {
-      label: 'CONNECTED PEOPLE',
+      label: 'Companions & Friends',
       value: people.length,
-      icon: Users,
-      color: 'text-indigo-400',
-      bg: 'bg-indigo-500/10 border-indigo-500/20',
-      change: '8 core companions',
+      unit: 'people',
+      change: 'Connected graph',
     },
     {
-      label: 'ARCHIVED PHOTOS',
+      label: 'Photo Assets',
       value: totalPhotos || 56,
-      icon: ImageIcon,
-      color: 'text-violet-400',
-      bg: 'bg-violet-500/10 border-violet-500/20',
-      change: 'High-res gallery',
+      unit: 'photographs',
+      change: 'Visual log',
     },
   ];
 
@@ -89,117 +77,111 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-in fade-in duration-300">
       {/* Header Greeting & CTA */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/[0.06]">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl sm:text-3xl font-display font-extrabold text-white tracking-tight">
-              Dashboard Overview
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl sm:text-3xl font-display font-semibold text-stone-100 tracking-tight">
+              Life Atlas & Intelligence
             </h1>
-            <span className="px-2.5 py-0.5 text-[10px] uppercase font-bold rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20">
-              Live Network
+            <span className="px-2 py-0.5 text-[10px] font-mono uppercase font-medium rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">
+              Personal Archive
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Personal memory intelligence graph & geographical footprint.
+          <p className="text-xs sm:text-sm text-stone-400 mt-1">
+            Personal memory intelligence graph, journey log, and geographical footprint.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={() => onNavigate('map')}
-            className="px-4 py-2 rounded-lg bg-[#11111A] hover:bg-slate-900 text-slate-300 hover:text-white border border-slate-800 text-xs font-semibold transition-all flex items-center gap-2 shadow-sm"
+            className="px-3.5 py-1.5 rounded bg-stone-900 hover:bg-stone-800 text-stone-200 border border-white/[0.08] text-xs font-medium transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
           >
-            <Compass className="w-4 h-4 text-violet-400" />
-            <span>Open Map View</span>
+            <Compass className="w-3.5 h-3.5 text-amber-400" />
+            <span>Interactive Map</span>
           </button>
 
           <button
             onClick={onOpenCreate}
-            className="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold shadow-lg shadow-violet-600/30 transition-all flex items-center gap-1.5 active:scale-95"
+            className="px-3.5 py-1.5 rounded bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-semibold transition-colors flex items-center gap-1.5 active:scale-95 cursor-pointer shadow-sm"
           >
-            <Plus className="w-4 h-4" />
-            <span>+ Add Memory</span>
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Memory</span>
           </button>
         </div>
       </div>
 
-      {/* 4 Sleek Stat Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Architectural Metric Panel (Integrated Bar) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 rounded-lg bg-[#12141C] border border-white/[0.07] divide-y lg:divide-y-0 lg:divide-x divide-white/[0.06] overflow-hidden shadow-sm">
         {stats.map((stat, idx) => {
-          const Icon = stat.icon;
           return (
-            <div
-              key={idx}
-              className="p-5 rounded-2xl bg-[#11111A] border border-slate-800 hover:border-slate-700 transition-all shadow-sm space-y-3"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">{stat.label}</span>
-                <div className={`p-2 rounded-xl border ${stat.bg} ${stat.color}`}>
-                  <Icon className="w-4 h-4" />
-                </div>
-              </div>
-              <div>
-                <div className="text-2xl sm:text-3xl font-display font-extrabold text-white tracking-tight">
+            <div key={idx} className="p-5 space-y-1">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-stone-500 block">
+                {stat.label}
+              </span>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl sm:text-3xl font-semibold font-mono text-stone-100 tracking-tight">
                   {stat.value}
-                </div>
-                <div className="text-[11px] text-slate-400 mt-1 flex items-center gap-1 font-medium truncate">
-                  <TrendingUp className="w-3 h-3 text-emerald-400 shrink-0" />
-                  <span className="truncate">{stat.change}</span>
-                </div>
+                </span>
+                <span className="text-xs text-stone-500 font-mono">{stat.unit}</span>
               </div>
+              <p className="text-[11px] text-stone-400 font-mono pt-1">
+                {stat.change}
+              </p>
             </div>
           );
         })}
       </div>
 
-      {/* Featured AI Spotlight & Quick Graph Launch */}
+      {/* Featured Editorial Spotlight */}
       {spotlightMemory && (
-        <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 bg-[#11111A] border border-violet-500/20 shadow-2xl shadow-violet-950/20">
+        <div className="rounded-lg p-6 sm:p-7 bg-[#13151D] border border-white/[0.08] shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div className="lg:col-span-8 space-y-4">
-              <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
-                  <Sparkles className="w-3 h-3" />
-                  AI Story Spotlight
+              <div className="flex items-center gap-2 text-xs text-stone-400 font-mono">
+                <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] font-semibold uppercase tracking-wider flex items-center gap-1">
+                  <Sparkles className="w-3 h-3 text-amber-400" />
+                  Featured Story
                 </span>
-                <span className="text-xs text-slate-400">
-                  📍 {spotlightMemory.location.placeName}, {spotlightMemory.location.city}
+                <span className="flex items-center gap-1">
+                  <MapPin className="w-3 h-3 text-stone-500" />
+                  {spotlightMemory.location.placeName}, {spotlightMemory.location.city}
                 </span>
               </div>
 
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-white leading-tight">
+              <h2 className="text-xl sm:text-2xl font-serif font-normal text-stone-100 leading-tight">
                 {spotlightMemory.title}
               </h2>
 
-              <p className="text-xs sm:text-sm text-slate-300 italic leading-relaxed bg-[#0A0A0F] p-3.5 rounded-xl border border-slate-800">
+              <p className="text-xs sm:text-sm text-stone-300 font-serif italic leading-relaxed bg-stone-900/60 p-4 rounded border border-white/[0.06]">
                 “{spotlightMemory.aiSummary || spotlightMemory.story}”
               </p>
 
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <button
                   onClick={() => onSelectMemory(spotlightMemory)}
-                  className="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold transition-all shadow-md shadow-violet-600/20 flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 rounded bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
                 >
-                  <span>Explore Full Story</span>
+                  <span>Open Full Chronicle</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
 
                 <button
                   onClick={() => onNavigate('graph')}
-                  className="px-4 py-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-all flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 rounded bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-medium border border-stone-700 transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
-                  <GitFork className="w-3.5 h-3.5 text-violet-400" />
-                  <span>View in Memory Graph</span>
+                  <GitFork className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Inspect in Relationship Graph</span>
                 </button>
               </div>
             </div>
 
             {spotlightMemory.photos?.[0] && (
-              <div className="lg:col-span-4 rounded-2xl overflow-hidden shadow-xl ring-1 ring-violet-500/20 max-h-56">
+              <div className="lg:col-span-4 rounded-md overflow-hidden border border-white/[0.08] max-h-56">
                 <img
                   src={spotlightMemory.photos[0]}
                   alt={spotlightMemory.title}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover hover:scale-102 transition-transform duration-500"
                 />
               </div>
             )}
@@ -207,55 +189,55 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
       )}
 
-      {/* Recent Memories Section */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
+      {/* Recent Field Memories Section */}
+      <div className="space-y-4 pt-2">
+        <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
           <div>
-            <h2 className="text-lg sm:text-xl font-display font-bold text-white">
-              Recent Memories
+            <h2 className="text-base sm:text-lg font-display font-semibold text-stone-100">
+              Recent Dispatches & Memories
             </h2>
-            <p className="text-xs text-slate-400">
-              Your latest captured journeys and moments
+            <p className="text-xs text-stone-400">
+              Chronological log of recent travels and captured moments
             </p>
           </div>
 
           <button
             onClick={() => onNavigate('memories')}
-            className="text-xs font-semibold text-violet-400 hover:text-violet-300 flex items-center gap-1 transition-colors"
+            className="text-xs font-medium text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors cursor-pointer"
           >
             <span>View All ({memories.length})</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
 
-        {/* 4-Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* 4-Card Editorial Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {recentMemories.map((mem) => {
             const personNames = getPersonNames(mem.peopleIds);
             return (
               <div
                 key={mem.id}
                 onClick={() => onSelectMemory(mem)}
-                className="group cursor-pointer rounded-2xl bg-[#11111A] border border-slate-800 hover:border-violet-500/30 hover:shadow-xl hover:shadow-violet-950/20 transition-all overflow-hidden flex flex-col justify-between"
+                className="group cursor-pointer rounded-lg bg-[#12141C] border border-white/[0.07] hover:border-white/[0.18] transition-all overflow-hidden flex flex-col justify-between"
               >
                 {/* Photo Preview */}
-                <div className="relative h-44 w-full overflow-hidden bg-slate-950">
+                <div className="relative h-40 w-full overflow-hidden bg-stone-950">
                   {mem.photos?.[0] ? (
                     <img
                       src={mem.photos[0]}
                       alt={mem.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-600 bg-slate-900">
-                      <ImageIcon className="w-8 h-8" />
+                    <div className="w-full h-full flex items-center justify-center text-stone-600 bg-stone-900">
+                      <ImageIcon className="w-7 h-7" />
                     </div>
                   )}
-                  <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#0A0A0F]/80 text-white backdrop-blur-md border border-slate-700/80">
+                  <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded text-[9px] font-mono uppercase tracking-wider bg-stone-900/90 text-stone-200 border border-white/[0.1]">
                     {mem.category}
                   </span>
                   {mem.photos && mem.photos.length > 1 && (
-                    <span className="absolute bottom-3 right-3 px-2 py-0.5 rounded-lg text-[10px] font-bold bg-[#0A0A0F]/80 text-slate-300 backdrop-blur-md">
+                    <span className="absolute bottom-2.5 right-2.5 px-1.5 py-0.5 rounded text-[9px] font-mono bg-stone-900/90 text-stone-300 border border-white/[0.1]">
                       +{mem.photos.length - 1} photos
                     </span>
                   )}
@@ -263,25 +245,28 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 
                 {/* Content */}
                 <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
-                  <div className="space-y-1.5">
-                    <h3 className="text-sm font-bold text-white group-hover:text-violet-300 transition-colors line-clamp-1">
-                      {mem.title}
-                    </h3>
-                    <p className="text-[11px] text-violet-300 flex items-center gap-1 font-medium truncate">
-                      <MapPin className="w-3 h-3 shrink-0" />
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between gap-1">
+                      <h3 className="text-xs sm:text-sm font-semibold text-stone-200 group-hover:text-amber-300 transition-colors line-clamp-1">
+                        {mem.title}
+                      </h3>
+                      <ArrowUpRight className="w-3 h-3 text-stone-500 group-hover:text-amber-400 shrink-0 transition-colors" />
+                    </div>
+                    <p className="text-[11px] text-stone-400 flex items-center gap-1 font-mono truncate">
+                      <MapPin className="w-3 h-3 text-amber-500/80 shrink-0" />
                       <span className="truncate">{mem.location.placeName}, {mem.location.city}</span>
                     </p>
-                    <p className="text-[10px] text-slate-400 flex items-center gap-1">
+                    <p className="text-[10px] text-stone-500 flex items-center gap-1 font-mono">
                       <Calendar className="w-3 h-3 shrink-0" />
                       <span>{new Date(mem.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                     </p>
                   </div>
 
                   {/* People & Tags */}
-                  <div className="pt-2 border-t border-slate-800 space-y-2">
+                  <div className="pt-2 border-t border-white/[0.06] space-y-1.5">
                     {personNames.length > 0 && (
-                      <p className="text-[10px] text-slate-400 truncate flex items-center gap-1">
-                        <Users className="w-3 h-3 text-indigo-400 shrink-0" />
+                      <p className="text-[10px] text-stone-400 truncate flex items-center gap-1">
+                        <Users className="w-3 h-3 text-stone-500 shrink-0" />
                         <span className="truncate">{personNames.slice(0, 2).join(', ')}{personNames.length > 2 ? ` +${personNames.length - 2}` : ''}</span>
                       </p>
                     )}
@@ -290,7 +275,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                       {mem.tags.slice(0, 2).map((t, idx) => (
                         <span
                           key={idx}
-                          className="text-[9px] px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 font-medium"
+                          className="text-[9px] px-1.5 py-0.5 rounded bg-stone-900 text-stone-400 font-mono border border-white/[0.04]"
                         >
                           #{t}
                         </span>
